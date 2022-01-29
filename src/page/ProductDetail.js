@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, Button, Dropdown, Alert } from "react-bootstrap";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { id } = useParams();
   const getSingleProduct = async () => {
     setLoading(true);
@@ -21,33 +22,39 @@ const ProductDetail = () => {
   if (loading || product == null) return <h1>Loading</h1>;
   return (
     <Container className="product-detail-card">
-      <Row>
-        <Col className="product-detail-img">
-          <img src={product.img} />
-        </Col>
-        <Col>
-          <div className="product-info">{product.title}</div>
-          <div className="product-info">₩ {product.price}</div>
-          <div className="choice">
-            {product.choice ? "Conscious choice" : ""}
-          </div>
-          <Dropdown className="drop-down">
-            <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
-              사이즈 선택
-            </Dropdown.Toggle>
+      {error ? (
+        <Alert variant="danger" className="text-center">
+          {error}
+        </Alert>
+      ) : (
+        <Row>
+          <Col className="product-detail-img">
+            <img src={product.img} />
+          </Col>
+          <Col>
+            <div className="product-info">{product.title}</div>
+            <div className="product-info">₩ {product.price}</div>
+            <div className="choice">
+              {product.choice ? "Conscious choice" : ""}
+            </div>
+            <Dropdown className="drop-down">
+              <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
+                사이즈 선택
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              {product?.size.length > 0 &&
-                product.size.map((item) => (
-                  <Dropdown.Item href="#/action-1">{item}</Dropdown.Item>
-                ))}
-            </Dropdown.Menu>
-          </Dropdown>
-          <Button variant="dark" className="add-button">
-            추가
-          </Button>
-        </Col>
-      </Row>
+              <Dropdown.Menu>
+                {product?.size.length > 0 &&
+                  product.size.map((item) => (
+                    <Dropdown.Item href="#/action-1">{item}</Dropdown.Item>
+                  ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button variant="dark" className="add-button">
+              추가
+            </Button>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };

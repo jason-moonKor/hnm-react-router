@@ -15,7 +15,7 @@ const Navbar = ({ authenticate, setAuthenticate }) => {
     "Sale",
     "지속가능성",
   ];
-  let [width, setWidth] = useState(250);
+  let [width, setWidth] = useState(0);
   let navigate = useNavigate();
   const onCheckEnter = (event) => {
     if (event.key === "Enter") {
